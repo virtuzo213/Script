@@ -16,13 +16,13 @@ local request 		= request or http_request;
 local loadstring 	= loadstring;
 
 if (type(messagebox) ~= 'function') then
-	return localPlayer:Kick('[Sigma.Hack] missing alias ( messagebox ) - unsupported executor');
+	return localPlayer:Kick('[Echo.HUB] missing alias ( messagebox ) - unsupported executor');
 end;
 
 local protectedMessagebox = function(body, title, id)
 	local success, output = pcall(messagebox, body, title, id);
 	if (not success) then
-		localPlayer:Kick(`[Sigma.Hack] messagebox_error - {body}`);
+		localPlayer:Kick(`[Echo.HUB] messagebox_error - {body}`);
 		task.wait(9e9);
 		return;
 	end;
@@ -31,17 +31,17 @@ end;
 local protectedLoad = function(url)
 	local success, response = pcall(request, {Url=url; Method='GET';});
 	if (not success) then
-		protectedMessagebox(`protectedLoad failed(1) - request error\n\nurl: {url}`, `Sigma.Hack [{executor}]`, 48);
+		protectedMessagebox(`protectedLoad failed(1) - request error\n\nurl: {url}`, `Echo.HUB [{executor}]`, 48);
 		task.wait(9e9);
 		return;
 	elseif (type(response) ~= 'table' or type(response.Body) ~= 'string' or response.StatusCode ~= 200) then
-            protectedMessagebox(`protectedLoad failed(2) - bad response\n\nurl: {url}`, `Sigma.Hack [{executor}]`, 48);
+            protectedMessagebox(`protectedLoad failed(2) - bad response\n\nurl: {url}`, `Echo.HUB [{executor}]`, 48);
 		task.wait(9e9);
 		return;
       end;
       local loader = loadstring(response.Body);
       if (not loader) then
-            protectedMessagebox(`protectedLoad failed(3) - syntax error\n\nurl: {url}`, `Sigma.Hack [{executor}]`, 48);
+            protectedMessagebox(`protectedLoad failed(3) - syntax error\n\nurl: {url}`, `Echo.HUB [{executor}]`, 48);
 		task.wait(9e9);
 		return;
       end;
@@ -49,9 +49,9 @@ local protectedLoad = function(url)
 end;
 
 if (type(loadstring) ~= 'function') then
-	return protectedMessagebox(`missing alias ( loadstring ) - unsupported executor`, `Sigma.Hack [{executor}]`, 48);
+	return protectedMessagebox(`missing alias ( loadstring ) - unsupported executor`, `Echo.HUB [{executor}]`, 48);
 elseif (type(request) ~= 'function') then
-	return protectedMessagebox(`missing alias ( request ) - unsupported executor`, `Sigma.Hack [{executor}]`, 48);
+	return protectedMessagebox(`missing alias ( request ) - unsupported executor`, `Echo.HUB [{executor}]`, 48);
 elseif (not Drawing) then
 	protectedLoad('https://raw.githubusercontent.com/mainstreamed/amongus-hook/refs/heads/main/drawingfix.lua');
 end;
@@ -74,12 +74,12 @@ statuslist.tridentsurvival = {
 
 local load = function(name)
 	local game = statuslist[name];
-	if (game.status ~= 'Undetected' and protectedMessagebox(`{game.name} is Currently Marked as {game.status}!\n\nAre You Sure You Want to Continue?`, `Sigma.hack`, 52) ~= 6) then
+	if (game.status ~= 'Undetected' and protectedMessagebox(`{game.name} is Currently Marked as {game.status}!\n\nAre You Sure You Want to Continue?`, `Echo.HUB`, 52) ~= 6) then
 		return;
 	elseif (
 		game.support and 
 		not table.find(game.support, executor) and 
-		protectedMessagebox(`Unsupported Executor!\n\n{executor} is not Officially Supported for Fallen Survival\nand may have Undefined Behaviour or even result in a BAN!\n\nAre You Sure You Want to Continue?`, `Sigma.hack [{executor}]`, 52) ~= 6
+		protectedMessagebox(`Unsupported Executor!\n\n{executor} is not Officially Supported for Fallen Survival\nand may have Undefined Behaviour or even result in a BAN!\n\nAre You Sure You Want to Continue?`, `Echo.HUB [{executor}]`, 52) ~= 6
 	) then
 		return;
 	end;
@@ -91,4 +91,4 @@ if (placeid == 13253735473) then
 elseif (placeid == 13800717766 or placeid == 15479377118 or placeid == 16849012343) then
     return load('fallensurvival');
 end;
-protectedMessagebox(`This Game is Unsupported!\n\nIf you believe this is incorrect, please open a ticket in our discord! - discord.gg/KSWtPmxrKW`, `Sigma.Hack [{placeid}]`, 48);
+protectedMessagebox(`This Game is Unsupported!\n\nIf you believe this is incorrect, please open a ticket in our discord! - discord.gg/KSWtPmxrKW`, `Echo.HUB [{placeid}]`, 48);
